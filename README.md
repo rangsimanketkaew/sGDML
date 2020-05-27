@@ -17,7 +17,9 @@ Documentation can be found here: [http://sgdml.org/doc/](http://sgdml.org/doc/)
 
 Most systems come with the default package manager for Python ``pip`` already preinstalled. Install ``sgdml`` by simply calling:
 
-`pip install sgdml`
+```
+$ pip install sgdml
+```
 
 The ``sgdml`` command-line interface and the corresponding Python API can now be used from anywhere on the system.
 
@@ -25,35 +27,64 @@ The ``sgdml`` command-line interface and the corresponding Python API can now be
 
 #### (1) Clone the repository
 
-`git clone https://github.com/stefanch/sGDML.git`
-
-`cd sGDML`
+```
+$ git clone https://github.com/stefanch/sGDML.git
+$ cd sGDML
+```
 
 ...or update your existing local copy with
 
-`git pull origin master`
+```
+$ git pull origin master
+```
 
 #### (2) Install
 
-`pip install -e .`
+```
+$ pip install -e .
+```
 
 Using the flag ``--user``, we can tell ``pip`` to install the package to the current users's home directory, instead of system-wide. This option might require you to update your system's ``PATH`` variable accordingly.
 
-##### ...with GPU support
 
-For GPU support, the optional PyTorch dependency needs to be installed.
+### Optional dependencies
 
-`pip install -e .[torch]`
+Some functionality of this package relies on third-party libraries that are not installed by default. These optional dependencies (or "package extras") are specified during installation using the "square bracket syntax":
+
+```
+$ pip install sgdml[<optional1>,<optional2>]
+```
+
+#### GPU support (via PyTorch)
+
+To enable GPU support, you need to install the optional [PyTorch](https://pytorch.org/) dependency using the ``torch`` keyword:
+
+```
+$ pip install sgdml[torch]
+```
+
+
+#### Atomic Simulation Environment (ASE)
+
+If you are interested in interfacing with [ASE](https://wiki.fysik.dtu.dk/ase/) (see [here](http://quantum-machine.org/gdml/doc/applications.html) for examples), use the ``ase`` keyword:
+
+```
+$ pip install sgdml[ase]
+```
 
 ## Reconstruct your first force field
 
 Download one of the example datasets:
 
-`sgdml-get dataset ethanol_dft`
+```
+$ sgdml-get dataset ethanol_dft
+```
 
 Train a force field model:
 
-`sgdml all ethanol_dft.npz 200 1000 5000`
+```
+$ sgdml all ethanol_dft.npz 200 1000 5000
+```
 
 ## Query a force field
 
@@ -71,17 +102,6 @@ e,f = gdml.predict(r)
 print e.shape # (1,)
 print f.shape # (1,27)
 ```
-
-### ...with GPU support
-
-Setting ``use_torch=True`` when instantiating the predictor redirects all calculations to PyTorch.
-
-```python
-gdml = GDMLPredict(model, use_torch=True)
-```
-
-**_NOTE:_**  PyTorch must be installed with GPU support, otherwise the CPU is used. However, we recommend performing CPU calculations without PyTorch for optimal performance.
-
 
 ## Authors
 
